@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Route;
 //     return response()->json(['message' => 'Hello World!']);
 // });
 
-// Route::post('/post-method', function () {
-//     return ['message' => 'This is post method'];
-// });
-
 // Route::get('/hello', function () {
 //     return response()->json(['message' => 'Hello World!']);
 // });
@@ -26,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::post('/send-report', [ReportController::class, 'sendToTelegram']);
+
+Route::post('/post-method', function () {
+    return ['message' => 'This is post method'];
+});
 
 Route::post('/test-post', function (Request $request) {
     return response()->json([
