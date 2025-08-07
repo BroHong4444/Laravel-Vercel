@@ -29,7 +29,7 @@ jobs:
           SENTRY_LARAVEL_DSN: ${{ secrets.SENTRY_LARAVEL_DSN }}
           DB_CONNECTION: sqlite
 #          DB_CONNECTION: pgsql
-#          DB_URL: ${{ secrets.DB_URL }}
+         DB_URL: ${{ secrets.DB_URL }}
 
       - name: Deploy to Vercel
         run: vercel deploy --force --prod --token=${{ secrets.VERCEL_LARACEL_TOKEN }}
