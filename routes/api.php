@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('/users/{iterations?}', [BenchmarkController::class, 'users']);
 // });
 
-Route::post('/send-report', [ReportController::class, 'sendToTelegram']);
+Route::get('/send-report', [ReportController::class, 'sendToTelegram']);
 
 Route::post('/post-method', function () {
     return ['message' => 'This is post method'];
