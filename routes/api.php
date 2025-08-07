@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BenchmarkController;
+use App\Http\Controllers\ReportController;
 use App\Models\User;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('/users/{iterations?}', [BenchmarkController::class, 'users']);
 // });
 
-// Route::post('/send-report', [ReportController::class, 'sendToTelegram']);
+Route::post('/send-report', [ReportController::class, 'sendToTelegram']);
 
 Route::post('/post-method', function () {
     return ['message' => 'This is post method'];
