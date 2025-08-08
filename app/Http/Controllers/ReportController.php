@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notifications\TelegramNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
@@ -23,14 +24,21 @@ class ReportController extends Controller
             // Notification::route('telegram', $chatId) // your Telegram chat ID
             //     ->notify(new TelegramNotification($validated));
 
-            Notification::route('telegram', config('services.telegram-bot-api.chat_id'))
-                ->notify(new \App\Notifications\TelegramNotification([
-                    'name' => 'Server Test',
-                    'report_type' => 'Debug',
-                    'description' => 'Testing Telegram from production server',
-                ]));
+            // Notification::route('telegram', config('services.telegram-bot-api.chat_id'))
+            //     ->notify(new \App\Notifications\TelegramNotification([
+            //         'name' => 'Server Test',
+            //         'report_type' => 'Debug',
+            //         'description' => 'Testing Telegram from production server',
+            //     ]));
 
-            return response()->json(['success' => true, 'message' => 'Report sent successfully.'], 200);
+            // return response()->json(['success' => true, 'message' => 'Report sent successfully.'], 200);
+
+            $response = Http::post("https://api.telegram.org/bot" . config('services.telegram-bot-api.token') . "/sendMessage", [
+                'chat_id' => config('services.telegram-bot-api.chat_id'),
+                'text' => 'Test from production server'
+            ]);
+
+            $response->json();
         } catch (\Throwable $ex) {
             Log::error('Telegram notification failed', [
                 'error' => $ex->getMessage(),
