@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Notifications\TelegramNotification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/hello', function () {
