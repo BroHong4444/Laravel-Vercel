@@ -22,16 +22,9 @@ use Illuminate\Support\Facades\Route;
 //     Route::get('/users/{iterations?}', [BenchmarkController::class, 'users']);
 // });
 
-Route::get('/send-report', [ReportController::class, 'sendToTelegram']);
+Route::post('/send-report', [ReportController::class, 'sendToTelegram']);
 
+// Test route
 Route::post('/post-method', function () {
     return ['message' => 'This is post method'];
-});
-
-Route::post('/test-post', function (Request $request) {
-    return response()->json([
-        'success' => true,
-        'message' => 'POST request received!',
-        'data' => $request->all()
-    ]);
 });
