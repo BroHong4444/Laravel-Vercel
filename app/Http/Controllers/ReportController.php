@@ -18,10 +18,17 @@ class ReportController extends Controller
         ]);
 
         try {
-            $chatId = config('services.telegram-bot-api.chat_id'); // Load from config
-            // Send notification without a model
-            Notification::route('telegram', $chatId) // your Telegram chat ID
-                ->notify(new TelegramNotification($validated));
+            // $chatId = config('services.telegram-bot-api.chat_id'); // Load from config
+            // // Send notification without a model
+            // Notification::route('telegram', $chatId) // your Telegram chat ID
+            //     ->notify(new TelegramNotification($validated));
+
+            Notification::route('telegram', config('services.telegram-bot-api.chat_id'))
+                ->notify(new \App\Notifications\TelegramNotification([
+                    'name' => 'Server Test',
+                    'report_type' => 'Debug',
+                    'description' => 'Testing Telegram from production server',
+                ]));
 
             return response()->json(['success' => true, 'message' => 'Report sent successfully.'], 200);
         } catch (\Throwable $ex) {
