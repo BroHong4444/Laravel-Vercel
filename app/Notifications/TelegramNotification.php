@@ -45,6 +45,7 @@ class TelegramNotification extends Notification
                 "🔔 <b>New Report Received</b>\n\n" .
                     "👤 <b>Employee Name:</b> {$this->data['name']}\n\n" .
                     "📝 <b>Report Type:</b> {$this->data['report_type']}\n\n" .
+                    "📅 <b>Date:</b> {$this->data['date']}\n\n" .
                     "🗒️ <b>Description:</b>\n\n{$this->data['description']}"
             )
             ->options(['parse_mode' => 'HTML']);
