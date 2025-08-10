@@ -19,7 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://laravel-vercel-bice-pi.vercel.app'],
+    'allowed_origins' => [
+        'http://localhost:3000',
+        'https://laravel-vercel-bice-pi.vercel.app',
+    ],
 
     'allowed_origins_patterns' => [],
 
