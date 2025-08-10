@@ -22,7 +22,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://laravel-vercel-bice-pi.vercel.app",
+        "APP_URL": "https://send-report.vercel.app",
         "APP_KEY": "base64:O6+QugVrS1mP/0HZwjJEBx5FTgyP5kQc97Na3H+R0iI=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
