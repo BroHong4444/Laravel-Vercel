@@ -21,7 +21,8 @@ return [
 
     'allowed_origins' => [
         'http://localhost:3000',
-        'https://laravel-vercel-bice-pi.vercel.app',
+        'https://send-report.vercel.app',
+        // 'https://laravel-vercel-bice-pi.vercel.app',
     ],
 
     'allowed_origins_patterns' => [],
