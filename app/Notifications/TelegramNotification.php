@@ -17,9 +17,13 @@ class TelegramNotification extends Notification
      * Create a new notification instance.
      */
     protected $data;
-    public function __construct(array $data)
+    protected $chatId;
+    protected $botToken;
+    public function __construct(array $data, $chatId, $botToken)
     {
         $this->data = $data;
+        $this->chatId = $chatId;
+        $this->botToken = $botToken;
     }
 
     /**
@@ -37,10 +41,11 @@ class TelegramNotification extends Notification
      */
     public function toTelegram($notifiable)
     {
-        $chatId = config('services.telegram-bot-api.chat_id'); // Load from config
+        // $chatId = config('services.telegram-bot-api.weekly_chat_id');
 
         return TelegramMessage::create()
-            ->to($chatId)
+            ->to($this->chatId)
+            ->token($this->botToken) // important for multiple bots
             ->content(
                 "🔔 <b>New Report Received</b>\n\n" .
                     "👤 <b>Employee Name:</b> {$this->data['name']}\n\n" .

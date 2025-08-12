@@ -28,10 +28,28 @@ class ReportController extends Controller
         ]);
 
         try {
-            $chatId = config('services.telegram-bot-api.chat_id'); // Load from config
+            // Decide bot/chat_id based on report_type
+            switch (strtolower($validated['report_type'])) {
+                case 'weekly':
+                    $botToken = config('services.telegram-bot-api.weekly.bot_token');
+                    $chatId   = config('services.telegram-bot-api.weekly.chat_id');
+                    break;
+                case 'monthly':
+                    $botToken = config('services.telegram-bot-api.monthly.bot_token');
+                    $chatId   = config('services.telegram-bot-api.monthly.chat_id');
+                    break;
+                default:
+                    $botToken = config('services.telegram-bot-api.weekly.bot_token');
+                    $chatId   = config('services.telegram-bot-api.weekly.chat_id');
+                    break;
+            }
+
             // Send notification without a model
-            Notification::route('telegram', $chatId) // your Telegram chat ID
-                ->notify(new TelegramNotification($validated));
+            Notification::route('telegram', [
+                'chat_id'   => $chatId,
+                'bot_token' => $botToken
+            ]) // your Telegram chat ID
+                ->notify(new TelegramNotification($validated, $chatId, $botToken));
 
             return response()->json(['success' => true, 'message' => 'Report sent successfully.'], 200);
         } catch (\Throwable $ex) {

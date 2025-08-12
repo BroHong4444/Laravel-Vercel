@@ -32,8 +32,16 @@ return [
     ],
 
     'telegram-bot-api' => [
-        'token' => env('TELEGRAM_BOT_TOKEN'),
-        'chat_id' => env('TELEGRAM_CHAT_ID'),
+        // 'token' => env('TELEGRAM_BOT_TOKEN'),
+        // 'chat_id' => env('TELEGRAM_CHAT_ID'),
+        'weekly' => [
+            'bot_token' => env('TELEGRAM_WEEKLY_BOT_TOKEN'),
+            'chat_id'   => env('TELEGRAM_WEEKLY_CHAT_ID'),
+        ],
+        'monthly' => [
+            'bot_token' => env('TELEGRAM_MONTHLY_BOT_TOKEN'),
+            'chat_id'   => env('TELEGRAM_MONTHLY_CHAT_ID'),
+        ],
     ],
 
 ];
