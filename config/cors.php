@@ -22,6 +22,7 @@ return [
     'allowed_origins' => [
         'http://localhost:3000',
         'https://send-report.vercel.app',
+        'https://https://rp.skyadm.vip',
         // 'https://laravel-vercel-bice-pi.vercel.app',
     ],
 
