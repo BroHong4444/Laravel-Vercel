@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'd1'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,6 +30,13 @@ return [
     */
 
     'connections' => [
+
+        // 'd1' => [
+        //     'driver' => 'd1',
+        //     'account_id' => env('CLOUDFLARE_ACCOUNT_ID'),
+        //     'database_id' => env('CLOUDFLARE_D1_DATABASE_ID'),
+        //     'token' => env('CLOUDFLARE_TOKEN'),
+        // ],
 
         'sqlite' => [
             'driver' => 'sqlite',
@@ -109,6 +116,18 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        // Cloudflare database
+        'd1' => [
+            'driver' => 'd1',
+            'prefix' => '',
+            'database' => env('CLOUDFLARE_D1_DATABASE_ID', 'b6f85a8c-026e-4010-8933-ca8a63559120'),
+            'api' => 'https://api.cloudflare.com/client/v4',
+            'auth' => [
+                'token' => env('CLOUDFLARE_TOKEN', 'C0ERA3F72FCBHFEPCNbXwWixYR8XjVNtiVCgwbxT'),
+                'account_id' => env('CLOUDFLARE_ACCOUNT_ID', '48affc162da47c0711b70196dce7f949'),
+            ],
+        ],
+
     ],
 
     /*
@@ -144,7 +163,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

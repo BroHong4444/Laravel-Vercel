@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -105,6 +108,12 @@ return [
         ),
     ],
 
+    // App Providers
+    'providers' => ServiceProvider::defaultProviders()->merge([
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+    ])->toArray(),
+
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
@@ -123,4 +132,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // Alias
+    'aliases' => Facade::defaultAliases()->merge([
+        'JWTAuth'    => PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory::class,
+        //another aliases
+    ])->toArray(),
 ];

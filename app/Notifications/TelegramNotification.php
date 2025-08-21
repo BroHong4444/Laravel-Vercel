@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 
@@ -48,7 +49,8 @@ class TelegramNotification extends Notification
             ->token($this->botToken) // important for multiple bots
             ->content(
                 "🔔 <b>New Report Received</b>\n\n" .
-                    "👤 <b>Employee Name:</b> {$this->data['name']}\n\n" .
+                    "👤 <b>Employee Name:</b> " . Auth()->user()->name . "\n\n" .
+                    "🏢 <b>Department:</b> {$this->data['department']}\n\n" .
                     "📝 <b>Report Type:</b> {$this->data['report_type']}\n\n" .
                     "📅 <b>Date:</b> {$this->data['date']}\n\n" .
                     "🗒️ <b>Description:</b>\n\n{$this->data['description']}"

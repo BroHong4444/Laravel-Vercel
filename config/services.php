@@ -34,13 +34,17 @@ return [
     'telegram-bot-api' => [
         // 'token' => env('TELEGRAM_BOT_TOKEN'),
         // 'chat_id' => env('TELEGRAM_CHAT_ID'),
-        'weekly' => [
-            'bot_token' => env('TELEGRAM_WEEKLY_BOT_TOKEN'),
-            'chat_id'   => env('TELEGRAM_WEEKLY_CHAT_ID'),
+        'media' => [
+            'bot_token' => env('TELEGRAM_MEDIA_BOT_TOKEN'),
+            'chat_id'   => env('TELEGRAM_MEDIA_CHAT_ID'),
         ],
-        'monthly' => [
-            'bot_token' => env('TELEGRAM_MONTHLY_BOT_TOKEN'),
-            'chat_id'   => env('TELEGRAM_MONTHLY_CHAT_ID'),
+        'boost' => [
+            'bot_token' => env('TELEGRAM_BOOST_BOT_TOKEN'),
+            'chat_id'   => env('TELEGRAM_BOOST_CHAT_ID'),
+        ],
+        'it' => [
+            'bot_token' => env('TELEGRAM_IT_BOT_TOKEN'),
+            'chat_id'   => env('TELEGRAM_IT_CHAT_ID'),
         ],
     ],
 
