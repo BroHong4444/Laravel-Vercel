@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'd1'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,13 +30,6 @@ return [
     */
 
     'connections' => [
-
-        // 'd1' => [
-        //     'driver' => 'd1',
-        //     'account_id' => env('CLOUDFLARE_ACCOUNT_ID'),
-        //     'database_id' => env('CLOUDFLARE_D1_DATABASE_ID'),
-        //     'token' => env('CLOUDFLARE_TOKEN'),
-        // ],
 
         'sqlite' => [
             'driver' => 'sqlite',
@@ -117,16 +110,16 @@ return [
         ],
 
         // Cloudflare database
-        'd1' => [
-            'driver' => 'd1',
-            'prefix' => '',
-            'database' => env('CLOUDFLARE_D1_DATABASE_ID', 'b6f85a8c-026e-4010-8933-ca8a63559120'),
-            'api' => 'https://api.cloudflare.com/client/v4',
-            'auth' => [
-                'token' => env('CLOUDFLARE_TOKEN', 'C0ERA3F72FCBHFEPCNbXwWixYR8XjVNtiVCgwbxT'),
-                'account_id' => env('CLOUDFLARE_ACCOUNT_ID', '48affc162da47c0711b70196dce7f949'),
-            ],
-        ],
+        // 'd1' => [
+        //     'driver' => 'd1',
+        //     'prefix' => '',
+        //     'database' => env('CLOUDFLARE_D1_DATABASE_ID', 'b6f85a8c-026e-4010-8933-ca8a63559120'),
+        //     'api' => 'https://api.cloudflare.com/client/v4',
+        //     'auth' => [
+        //         'token' => env('CLOUDFLARE_TOKEN', 'C0ERA3F72FCBHFEPCNbXwWixYR8XjVNtiVCgwbxT'),
+        //         'account_id' => env('CLOUDFLARE_ACCOUNT_ID', '48affc162da47c0711b70196dce7f949'),
+        //     ],
+        // ],
 
     ],
 
