@@ -87,9 +87,29 @@ class ReportController extends Controller
     {
         try {
             // ✅ Get only reports for the logged-in user
-            $reports = Report::with('user')
-                ->orderBy('created_at', 'desc')
-                ->get();
+            // $reports = Report::with('user')
+            //     ->orderBy('created_at', 'desc')
+            //     ->get();
+
+            $user = Auth::user();
+
+            if ($user->hasRole('admin') || $user->is_admin == 1) {
+                // Admin → show all reports
+                $reports = Report::with('user')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                // Normal user → show only self
+                $reports = Report::with('user')
+                    ->where('user_id', $user->id)->get();
+            }
+
+            if ($reports->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No reports found'
+                ], 404);
+            }
 
             return response()->json([
                 'success' => true,

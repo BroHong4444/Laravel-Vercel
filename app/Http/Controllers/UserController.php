@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -38,10 +39,43 @@ class UserController extends Controller
         ]);
     }
 
-    public function getUsers()
+    // public function getUsers()
+    // {
+    //     try {
+    //         $users = User::all();
+
+    //         if ($users->isEmpty()) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'No users found'
+    //             ], 404);
+    //         }
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'data' => $users
+    //         ], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Something went wrong',
+    //             'error' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
+    public function getUser()
     {
         try {
-            $users = User::all();
+            $user = Auth::user();
+
+            if ($user->hasRole('admin') || $user->is_admin == 1) {
+                // Admin → show all users
+                $users = User::all();
+            } else {
+                // Normal user → show only self
+                $users = User::where('id', $user->id)->get();
+            }
 
             if ($users->isEmpty()) {
                 return response()->json([

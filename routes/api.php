@@ -48,7 +48,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 //     });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/get-users', [UserController::class, 'getUsers']);
+    Route::get('/get-user', [UserController::class, 'getUser']);
 
     Route::get('/auth-id', function (Request $request) {
         return response()->json(auth()->id());
