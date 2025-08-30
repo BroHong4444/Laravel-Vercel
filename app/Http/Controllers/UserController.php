@@ -39,30 +39,12 @@ class UserController extends Controller
         ]);
     }
 
-    // public function getUsers()
-    // {
-    //     try {
-    //         $users = User::all();
+    public function getUserProfile()
+    {
+        $user = Auth::user();
 
-    //         if ($users->isEmpty()) {
-    //             return response()->json([
-    //                 'success' => false,
-    //                 'message' => 'No users found'
-    //             ], 404);
-    //         }
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'data' => $users
-    //         ], 200);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Something went wrong',
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
+        return response()->json($user);
+    }
 
     public function getUser()
     {
@@ -71,7 +53,12 @@ class UserController extends Controller
 
             if ($user->hasRole('admin') || $user->is_admin == 1) {
                 // Admin → show all users
-                $users = User::all();
+                // $users = User::all();
+                $users = User::when(request('name'), function ($query, $name) {
+                    $query->where(function ($q) use ($name) {
+                        $q->where('name', 'like', "%{$name}%");
+                    });
+                })->get();
             } else {
                 // Normal user → show only self
                 $users = User::where('id', $user->id)->get();

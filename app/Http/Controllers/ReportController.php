@@ -26,19 +26,10 @@ class ReportController extends Controller
             'department'  => 'required|string|max:255',
             'report_type' => 'required|string|max:255',
             'description' => 'required|string',
-            'date'        => 'required|date|after_or_equal:today',
+            'date'        => 'required|date',
         ]);
 
         try {
-            // ✅ Save to DB
-            $report = Report::create([
-                'user_id'     => Auth::id(), // logged-in user
-                'department'  => $validated['department'],
-                'report_type' => $validated['report_type'],
-                'description' => $validated['description'],
-                'date'        => $validated['date'],
-            ]);
-
             // Decide bot/chat_id based on department
             switch (strtolower($validated['department'])) {
                 case 'media':
@@ -54,19 +45,24 @@ class ReportController extends Controller
                     $chatId   = config('services.telegram-bot-api.it.chat_id');
                     break;
                 default:
-                    $botToken = config('services.telegram-bot-api.weekly.bot_token');
-                    $chatId   = config('services.telegram-bot-api.weekly.chat_id');
+                    $botToken = config('services.telegram-bot-api.it.bot_token');
+                    $chatId   = config('services.telegram-bot-api.it.chat_id');
                     break;
             }
-            // remove all HTML tags from description
-            // $validated['description'] = strip_tags($validated['description']);
+            // ✅ Save to DB
+            $report = Report::create([
+                'user_id'     => Auth::id(), // logged-in user
+                'department'  => $validated['department'],
+                'report_type' => $validated['report_type'],
+                'description' => $validated['description'],
+                'date'        => $validated['date'],
+            ]);
+
             $validated['name'] = Auth::id();
-            // Send notification without a model
             Notification::route('telegram', [
                 'chat_id'   => $chatId,
                 'bot_token' => $botToken
-            ]) // your Telegram chat ID
-                ->notify(new TelegramNotification($validated, $chatId, $botToken));
+            ])->notify(new TelegramNotification($validated, $chatId, $botToken));
 
             return response()->json([
                 'success' => true,
@@ -86,21 +82,32 @@ class ReportController extends Controller
     public function getReport()
     {
         try {
-            // ✅ Get only reports for the logged-in user
-            // $reports = Report::with('user')
-            //     ->orderBy('created_at', 'desc')
-            //     ->get();
-
             $user = Auth::user();
 
             if ($user->hasRole('admin') || $user->is_admin == 1) {
                 // Admin → show all reports
+                // $reports = Report::with('user')
+                //     ->orderBy('created_at', 'desc')
+                //     ->get();
                 $reports = Report::with('user')
+                    ->when(!($user->hasRole('admin') || $user->is_admin == 1), function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    })
+                    ->when(request('user_id'), function ($query, $userId) {
+                        $query->where('user_id', $userId);
+                    })
+                    // Filter by date range if provided
+                    ->when(request('from_date') && request('to_date'), function ($query) {
+                        $from = request('from_date'); // expected format: YYYY-MM-DD
+                        $to = request('to_date');     // expected format: YYYY-MM-DD
+                        $query->whereBetween('date', [$from, $to]);
+                    })
                     ->orderBy('created_at', 'desc')
                     ->get();
             } else {
                 // Normal user → show only self
                 $reports = Report::with('user')
+                    ->orderBy('created_at', 'desc')
                     ->where('user_id', $user->id)->get();
             }
 
