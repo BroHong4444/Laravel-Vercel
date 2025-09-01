@@ -70,7 +70,7 @@ class UserReportController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'data' => $user,
+                'data' => ['reports' => $user->reports],
             ]);
         } catch (\Exception $e) {
             return response()->json([

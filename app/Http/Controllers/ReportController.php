@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class ReportController extends Controller
 {
@@ -59,10 +60,25 @@ class ReportController extends Controller
             ]);
 
             $validated['name'] = Auth::id();
-            Notification::route('telegram', [
-                'chat_id'   => $chatId,
-                'bot_token' => $botToken
-            ])->notify(new TelegramNotification($validated, $chatId, $botToken));
+            // Notification::route('telegram', [
+            //     'chat_id'   => $chatId,
+            //     'bot_token' => $botToken
+            // ])->notify(new TelegramNotification($validated, $chatId, $botToken));
+
+            // Split into chunks of 4050 characters
+            $description = $validated['description'];
+            $chunks = str_split($description, 4090);
+
+            foreach ($chunks as $chunk) {
+                Notification::route('telegram', [
+                    'chat_id'   => $chatId,
+                    'bot_token' => $botToken
+                ])->notify(new TelegramNotification(
+                    array_merge($validated, ['description' => $chunk]),
+                    $chatId,
+                    $botToken
+                ));
+            }
 
             return response()->json([
                 'success' => true,
